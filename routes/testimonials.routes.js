@@ -30,7 +30,19 @@ router.route('/testimonials').post((req, res) => {
 });
 
 router.route('/testimonials/:id').put((req, res) => {
+  const id = parseInt(req.params.id);
+  const { author, text } = req.body;
+  const testimonial = db.testimonials.find((testimonial) => testimonial.id === id);
+
+  if (!testimonial) {
+    res.status(404).json({ message: 'Nie znaleziono testimonialu.' });
+  } else {
+    testimonial.author = author || testimonial.author;
+    testimonial.text = text || testimonial.text;
+    res.json({ message: 'OK' });
+  }
 });
+
 
 router.route('/testimonials/:id').delete((req, res) => {
   const id = req.params.id;

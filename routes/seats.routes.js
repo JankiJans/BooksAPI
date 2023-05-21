@@ -30,6 +30,19 @@ router.route('/seats').post((req, res) => {
 });
 
 router.route('/seats/:id').put((req, res) => {
+  const id = parseInt(req.params.id);
+  const { day, seat, client, email } = req.body;
+  const seatNumber = db.seats.find((seat) => seat.id === id);
+
+  if (!seatNumber) {
+    res.status(404).json({ message: 'Nie znaleziono testimonialu.' });
+  } else {
+    seatNumber.day = day || seatNumber.day;
+    seatNumber.seat = seat || seatNumber.seat;
+    seatNumber.client = client || seatNumber.client;
+    seatNumber.email = email || seatNumber.email;
+    res.json({ message: 'OK' });
+  }
 });
 
 router.route('/seats/:id').delete((req, res) => {
