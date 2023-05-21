@@ -35,7 +35,7 @@ router.route('/concerts/:id').put((req, res) => {
   const concert = db.concerts.find((concert) => concert.id === id);
 
   if (!concert) {
-    res.status(404).json({ message: 'Nie znaleziono koncertu.' });
+    res.status(404).json({ message: 'Nie znaleziono danych.' });
   } else {
     concert.performer = performer || concert.performer;
     concert.genre = genre || concert.genre;

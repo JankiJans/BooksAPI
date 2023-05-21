@@ -35,7 +35,7 @@ router.route('/seats/:id').put((req, res) => {
   const seatNumber = db.seats.find((seat) => seat.id === id);
 
   if (!seatNumber) {
-    res.status(404).json({ message: 'Nie znaleziono testimonialu.' });
+    res.status(404).json({ message: 'Nie znaleziono danych.' });
   } else {
     seatNumber.day = day || seatNumber.day;
     seatNumber.seat = seat || seatNumber.seat;

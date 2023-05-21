@@ -35,7 +35,7 @@ router.route('/testimonials/:id').put((req, res) => {
   const testimonial = db.testimonials.find((testimonial) => testimonial.id === id);
 
   if (!testimonial) {
-    res.status(404).json({ message: 'Nie znaleziono testimonialu.' });
+    res.status(404).json({ message: 'Nie znaleziono danych.' });
   } else {
     testimonial.author = author || testimonial.author;
     testimonial.text = text || testimonial.text;
