@@ -11,7 +11,17 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
   
   useEffect(() => {
     dispatch(loadSeatsRequest());
-  }, [dispatch])
+  }, [dispatch]);
+
+  useEffect(() => { //ten efekt jest odpalany raz po pierwszym uruchomieniu komponentu
+    const interval = setInterval(() => { //tworzę interwał któy wywołuje akcje loadSeatsRequest() co dwie minuty 
+      dispatch(loadSeatsRequest());
+    }, 120000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [dispatch]);
 
   const isTaken = (seatId) => {
     return (seats.some(item => (item.seat === seatId && item.day === chosenDay)));
