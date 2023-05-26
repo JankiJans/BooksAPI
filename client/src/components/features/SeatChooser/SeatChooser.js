@@ -1,37 +1,32 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Progress, Alert } from 'reactstrap';
-import { getSeats, loadSeatsRequest, getRequests } from '../../../redux/seatsRedux';
+import { getSeats, loadSeatsRequest, getRequests, loadSeats } from '../../../redux/seatsRedux';
 import './SeatChooser.scss';
 import io from 'socket.io-client';
-import { useEffect } from 'react';
 
 const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
   const dispatch = useDispatch();
   const seats = useSelector(getSeats);
   const requests = useSelector(getRequests);
 
- useEffect(() => {
-  const socket = io(process.env.PORT || "http://localhost:8000/");
-  socket.on('connect', () => {
-    console.log('Wejście TEST')
-    socket.emit('pageEnter', 'client')
-  })
- },[])
-   
+  const [socket, setSocket] = useState('');
+
   useEffect(() => {
+    const newSocket = io(process.env.PORT || "http://localhost:8000/");
     dispatch(loadSeatsRequest());
+    newSocket.on('seatsUpdated', seats => dispatch(loadSeats(seats)))
+    setSocket(newSocket)
   }, [dispatch]);
 
-  useEffect(() => { //ten efekt jest odpalany raz po pierwszym uruchomieniu komponentu
-    const interval = setInterval(() => { //tworzę interwał któy wywołuje akcje loadSeatsRequest() co dwie minuty 
-      dispatch(loadSeatsRequest());
-    }, 120000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [dispatch]);
+  useEffect(() => {
+    if (socket) {
+      socket.on('connect', () => {
+        console.log('Wejście TEST');
+        socket.emit('pageEnter', 'client');
+      });
+    }
+  }, [socket]);
 
   const isTaken = (seatId) => {
     return (seats.some(item => (item.seat === seatId && item.day === chosenDay)));

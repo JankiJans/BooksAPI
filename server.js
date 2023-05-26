@@ -5,15 +5,19 @@ const socket = require('socket.io');
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, '/client/build')));
+
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const contersRoutes = require('./routes/concerts.routes')
 const seatsRoutes = require('./routes/seats.routes')
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '/client/build')));
 
 app.use(cors());
 
@@ -31,7 +35,6 @@ app.use((req, res) => {
 
 const server = app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running on port: 8000');
-  
 });
 
 const io = socket(server);
