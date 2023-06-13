@@ -6,8 +6,8 @@ const TestimonialController = require('../controllers/testimonials.controller');
 router.get('/testimonials', TestimonialController.getAll)
 router.get('/testimonials/random', TestimonialController.getRandom);
 router.get('/testimonials/:id', TestimonialController.getById);
-router.get('/testimonials/', TestimonialController.post);
-router.get('/testimonials/:id', TestimonialController.update);
-router.get('/testimonials/:id', TestimonialController.delete);
+router.post('/testimonials/', TestimonialController.post);
+router.put('/testimonials/:id', TestimonialController.update);
+router.delete('/testimonials/:id', TestimonialController.delete);
 
 module.exports = router
