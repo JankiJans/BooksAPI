@@ -18,7 +18,7 @@ const OrderTicketForm = () => {
     seat: ''
   });
   const [isError, setIsError] = useState(false);
-
+  console.log(order);
   const updateSeat = (e, seatId) => {
     e.preventDefault();
     setOrder({ ...order, seat: seatId });
@@ -42,7 +42,7 @@ const OrderTicketForm = () => {
       setOrder({
         client: '',
         email: '',
-        day: 1,
+        day: order.day,
         seat: '',
       });
       setIsError(false);
