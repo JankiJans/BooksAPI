@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const socket = require('socket.io');
 const mongoose = require('mongoose');
+require('dotenv').config()
 
 const app = express();
 
@@ -37,7 +38,7 @@ app.use((req, res) => {
   res.status(404).json({ message: 'not found' });
 });
 
-mongoose.connect('mongodb://localhost:27017/NewWaveDB', {
+mongoose.connect(`mongodb+srv://jano12:${process.env.MONGO_PASS}@cluster0.hpht11k.mongodb.net/?retryWrites=true&w=majority`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
